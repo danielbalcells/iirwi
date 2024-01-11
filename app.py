@@ -107,4 +107,4 @@ iface = gr.Interface(
     outputs='image',
 )
 
-iface.launch()
+iface.launch(debug=True)
