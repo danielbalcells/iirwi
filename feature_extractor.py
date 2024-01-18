@@ -8,6 +8,8 @@ import matplotlib.pyplot as plt
 import fastai.vision.all as fv
 import torch.nn as nn
 
+from storage import ImgFeatureStorage
+
 def dummy_loss_func(x, y):
     return torch.tensor(0.)
 
@@ -49,8 +51,12 @@ class FeatureExtractor:
         return obj
 
     @classmethod
-    def load(cls, filename):
+    def load(cls, filename, label_func=get_label, item_tfms=[fv.Resize(224)]):
         extractor = fv.load_learner(filename, cpu=False)
+        dls = fv.ImageDataLoaders.from_name_func(
+            extractor.dls.path, fv.get_image_files(extractor.dls.path), valid_pct=0.2, seed=42,
+            label_func=label_func, item_tfms=item_tfms)
+        extractor.dls = dls
         return cls.from_learner(extractor)
 
     def export(self, model_name, path=Path('.')):
@@ -88,23 +94,5 @@ class FeatureExtractor:
         all_features = torch.cat([train_features, valid_features])
         all_items = dls.train.items + dls.valid.items
         # Create a dictionary mapping image paths to features
-        features = {image: activation.clone() for image, activation in zip(all_items, all_activations)}
-        return features
-
-# def write_features(features, filename):
-#     with open(filename, 'wb') as f:
-#         pickle.dump(features, f)
-
-# def load_features(filename):
-#     with open(filename, 'rb') as f:
-#         features = pickle.load(f)
-#     return features
-
-# def get_features_tensor_from_dict(features):
-#     # Convert the features dictionary to a list of tuples
-#     features_list = list(features.items())
-#     # Extract the image paths and features
-#     image_paths, feature_tensors = zip(*features_list)
-#     # Convert the features to a PyTorch tensor
-#     features_tensor = torch.stack(feature_tensors)
-#     return features_tensor, image_paths
+        features = {image: activation.clone() for image, activation in zip(all_items, all_features)}
+        return ImgFeatureStorage.from_features_dict(features)
