@@ -1,10 +1,10 @@
 from pathlib import Path
 import gradio as gr
 import fastai.vision.all as fv
-from iirwi import IIRWI
+from iirwi.iirwi import IIRWI
 
-EXTRACTOR_NAME = Path('extractor.pt')
-STORAGE_NAME = Path('storage.pkl')
+EXTRACTOR_NAME = Path('model/extractor.pt')
+STORAGE_NAME = Path('model/storage.pkl')
 
 iirwi = IIRWI.from_filenames(EXTRACTOR_NAME, STORAGE_NAME)
 
