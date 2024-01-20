@@ -1,12 +1,12 @@
 import os
-import pickle
-from pathlib import Path
 from collections.abc import Iterable
+from pathlib import Path
+import pickle
 
 import torch
+import torch.nn as nn
 import matplotlib.pyplot as plt
 import fastai.vision.all as fv
-import torch.nn as nn
 
 from .storage import ImgFeatureStorage
 
