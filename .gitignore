@@ -4,3 +4,4 @@ dataset2
 __pycache__
 *.code-workspace
 old
+.ipynb_checkpoints
