@@ -57,7 +57,6 @@ idna==3.6
 importlib-resources==6.1.1
 ipykernel==6.28.0
 ipython==8.20.0
-IPython-Copilot-Completer @ file:///Users/dani/code/ipython-copilot-completer
 ipython-genutils==0.2.0
 ipywidgets==7.8.1
 isoduration==20.11.0
