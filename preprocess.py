@@ -1,10 +1,11 @@
 import os
 from PIL import Image
 import random
+from pathlib import Path
 
 # Define the source and destination directories
-src_dir = Path('dataset4/bboxes')
-dst_dir = Path('dataset4/crops3')
+src_dir = Path('dataset/parents')
+dst_dir = Path('dataset/crops')
 dst_dir.mkdir(parents=True, exist_ok=True)
 
 # Define the scale
